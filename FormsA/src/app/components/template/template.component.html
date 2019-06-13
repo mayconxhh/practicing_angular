@@ -1,0 +1,137 @@
+<h4>Formularios <small>template</small></h4>
+<hr>
+<form (ngSubmit)="save(form)" #form="ngForm" novalidate="">
+
+  <div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Nombre</label>
+      <div class="col-8">
+
+        <input class="form-control"
+               type="text"
+               placeholder="Nombre"
+               minlength="5" 
+               name="name" 
+               [(ngModel)]="usuario.name"
+               required
+               #name="ngModel"
+               [ngClass]="{ 'is-invalid': name.touched && name.errors?.required || (name.touched && name.errors?.minlength) }">
+        <div class="invalid-feedback" *ngIf="name.touched && name.errors?.required">
+        	Este campo es requerido
+        </div>
+        <div class="invalid-feedback" *ngIf="name.touched && name.errors?.minlength">
+        	Por lo menos {{ name.errors.minlength.requiredLength }} caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Apellido</label>
+      <div class="col-8">
+
+        <input class="form-control"
+               type="text"
+               placeholder="Apellido"
+               name="lastname" 
+               [(ngModel)]="usuario.lastname"
+               required
+               #lastname="ngModel"
+               [ngClass]="{ 'is-invalid': lastname.touched && lastname.errors?.required || (lastname.touched && lastname.errors?.minlength) }">
+        <div class="invalid-feedback" *ngIf="lastname.touched && lastname.errors?.required">
+        	Este campo es requerido
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Correo</label>
+    <div class="col-md-8">
+
+      <input class="form-control"
+             type="email"
+             placeholder="Correo electrónico"
+             name="email" 
+             [(ngModel)]="usuario.email"
+             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+             required
+             #email="ngModel"
+             [ngClass]="{ 'is-invalid': email.touched && email.errors?.required || (email.touched && email.errors?.minlength) }">
+      <div class="invalid-feedback" *ngIf="email.touched && email.errors?.required">
+      	Este campo es requerido
+      </div>
+      <div class="invalid-feedback" *ngIf="email.touched && email.errors?.pattern">
+      	Ingrese un correo válido
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Pais</label>
+    <div class="col-md-8">
+		<select class="from-control" 
+			name="pais"
+			[(ngModel)]="usuario.pais">
+			<option value="" >Selecione un pais</option>
+			<option *ngFor="let pais of paises"
+				[value]="pais.code">{{pais.name}}</option>
+		</select>
+   	</div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Sexo</label>
+    <div class="col-md-8">
+    	<div class="custom-control custom-radio custom-control-inline" *ngFor="let g of genders ">
+    	  <input type="radio" 
+    	  	id="{{g}}" 
+    	  	name="gender" 
+    	  	class="custom-control-input"
+    	  	[value]="g"
+    	  	[(ngModel)]="usuario.gender">
+    	  <label class="custom-control-label" for="{{g}}" >{{ g }}</label>
+    	</div>
+    </div>
+  </div>
+
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Acepta</label>
+    <div class="col-md-8">
+    	<div class="custom-control custom-checkbox">
+    	  <input [(ngModel)]="usuario.acepta"
+    	  	name="acepta"
+    	  	type="checkbox" 
+    	  	class="custom-control-input" 
+    	  	id="check"
+    	  	#acepta="ngModel"
+    	  	required
+    	  	[ngClass]="{ 'is-invalid': acepta.touched && acepta.errors?.required }">
+    	  <label class="custom-control-label" for="check">Acepta las condiciones</label>
+    	  <div class="invalid-feedback" *ngIf="acepta.touched && acepta.errors?.required">
+        	Este campo es requerido
+        </div>
+    	</div>
+    </div>
+  </div>
+
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md-8">
+      <button
+		type="submit"
+      	class="btn btn-outline-primary"
+      	[disabled]="!form.valid">
+        Guardar
+      </button>
+    </div>
+  </div>
+
+</form>
+
+<pre>
+	{{usuario | json}}
+</pre>
